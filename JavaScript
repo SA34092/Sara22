@@ -1,1 +1,78 @@
 
+// نظام إدارة الطلاب
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    // تسجيل الدخول
+    const loginForm = document.querySelector("form");
+
+    if (
+        loginForm &&
+        location.pathname.endsWith("index.html")
+    ) {
+
+        loginForm.addEventListener("submit", function(event) {
+
+            const username = loginForm.querySelector(
+                'input[type="text"]'
+            ).value.trim();
+
+            const password = loginForm.querySelector(
+                'input[type="password"]'
+            ).value.trim();
+
+            if (username === "" || password === "") {
+                event.preventDefault();
+                alert("يرجى إدخال اسم المستخدم وكلمة المرور");
+                return;
+            }
+
+            localStorage.setItem("studentName", username);
+
+            alert("تم تسجيل الدخول بنجاح");
+
+        });
+    }
+
+    // الترحيب بالطالب
+    if (location.pathname.endsWith("home.html")) {
+
+        const studentName = localStorage.getItem("studentName");
+
+        if (studentName) {
+            const heading = document.querySelector("h2");
+
+            if (heading) {
+                heading.textContent =
+                    "مرحباً بك يا " + studentName;
+            }
+        }
+    }
+
+    // صفحة التواصل
+    if (location.pathname.endsWith("contact.html")) {
+
+        const contactForm = document.querySelector("form");
+
+        if (contactForm) {
+
+            contactForm.addEventListener("submit", function(event) {
+
+                event.preventDefault();
+
+                alert("تم استلام رسالتك بنجاح");
+
+                contactForm.reset();
+
+            });
+        }
+    }
+
+    // تسجيل الخروج
+    if (location.pathname.endsWith("logout.html")) {
+
+        localStorage.removeItem("studentName");
+
+    }
+
+});
